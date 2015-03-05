@@ -102,7 +102,7 @@ function findByName(book) {
                 }
             };
         });
-        if (books.isEmpty()) {
+        if (books.length == 0) {
             reject(books);
         }
         else {
@@ -132,23 +132,5 @@ function findByRef(book) {
 return service;
 }
 window.onload = function(){
-Array.prototype.isEmpty = function () {
-    if (this.length == 0) {
-        return true;
-    }
-    else {
-        return false;
-    };
-};
-var books = [
-    {
-        name: 'Danielson',
-        ref: 42342,
-        description: 'Show me some essa manyana',
-        content: new Blob,
-        related: [
-            54566
-        ]
-    }
-];
+	storageService();
 }
