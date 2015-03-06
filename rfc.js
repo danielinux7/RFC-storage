@@ -90,10 +90,12 @@ function storageService() {
         });
     }
     // Need to refine regex
+
     function findByName(name) {
         return dbPromise.then(function (db) {
             var booksPromise = new Promise(function (resolve) {
-                var books = [];
+                var books = [
+                ];
                 var bookStore = db.transaction('books', 'readwrite').objectStore('books');
                 bookStore.index('name').openCursor().onsuccess = function (e) {
                     var cursor = e.target.result;
@@ -101,10 +103,10 @@ function storageService() {
                         if (cursor.key.match(name)) {
                             books.push(cursor.value);
                         }
-                        cursor.continue();
+                        cursor.continue ();
                     }
-                    else{
-                    	resolve(books);
+                    else {
+                        resolve(books);
                     }
                 };
             });
@@ -136,22 +138,19 @@ function storageService() {
     }
     return service;
 }
-window.onload = function () {
+function sideController(storageService) {
     var service = storageService();
-var books = [
-    {
-        name: 'Daniel',
-        ref: 23231,
-        description: 'Show me some essa manyana',
-        content: new Blob,
-        related: [
-            54566
-        ]
-    }
-];
-		// service.addBook(books[0]);
-    var promise = service.findByName('Danielson');
-    promise.then(function (books) {
-        console.log(books)
+    var savebutton = document.getElementById('save');
+    savebutton.addEventListener('click', function () {
+        service.addBook({
+            name: document.getElementById('name').value,
+            description: document.getElementById('description').value,
+            ref: document.getElementById('ref').value,
+            content: document.getElementById('content').value,
+            related: document.getElementById('name').value
+        })
     });
+}
+window.onload = function () {
+    sideController(storageService);
 }

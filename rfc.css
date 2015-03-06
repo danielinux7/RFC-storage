@@ -1,15 +1,27 @@
 .container{
-
+  display:flex;
+}
+html, body{
+  height: 100%;
 }
 .shared{
-
+    border-radius: 5px;
+    color: white;
 }
-nav{
-
+.input{
+  margin-bottom: 0.5em;
 }
 aside{
-
+  position: absolute;
+  background: rgb(124, 124, 124);
+  border: 5px solid rgb(179, 174, 174);
+  top:20%;
+  height: 60%;
+  width: 25%;
 }
-article{
-
+iframe{
+  height: 98%;
+  width: 100%;
+}
+footer{
 }

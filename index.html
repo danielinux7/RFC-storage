@@ -4,14 +4,39 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" href="rfc.css">
 </head>
-<body>
-<section class="container">
-    <header class="shared"></header>
-    <nav class="shared"></nav>
-    <aside class="shared"></aside>
-    <article class="shared"></article>
+<body "container">
+    <aside class="shared">
+      <div class="input">
+      <label>Name:
+      <input id="name" type="text" />
+      </label>
+      </div>
+      <div class="input">
+      <label>Ref:
+      <input id="ref" type="text" />
+      </label>
+      </div>
+      <div  class="input">
+      <label>Description:
+      <input id="description" type="text" />
+      </label>
+      </div>
+      <div class="input">
+      <label>Related:
+      <input id="related" type="text" />
+      </label>
+      </div>
+      <div class="input">
+      <label>File:
+      <input id="content" type="file" />
+      </label>
+      </div>
+      <button id="save">Save</button>
+      <button id="update">Update</button>
+      <button id="delete">Delete</button>
+    </aside>
+    <iframe class="shared"></iframe>
     <footer class="shared"></footer>
-  </section>
 </body>
 <script type="text/javascript" src="rfc.js"></script>
 </html>
