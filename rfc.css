@@ -11,6 +11,11 @@ html, body{
 .input{
   margin-bottom: 0.5em;
 }
+input, button{
+  background: #eeeeee;
+  border-radius: 3px;
+  color: rgb(124, 124, 124);
+}
 #booklist{
   bordor: 2px solid #eeeeee;
   border-radius: 3px;
