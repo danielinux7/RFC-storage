@@ -6,10 +6,18 @@ html, body{
 }
 .shared{
     border-radius: 5px;
-    color: white;
+    color: #eeeeee;
 }
 .input{
   margin-bottom: 0.5em;
+}
+#booklist{
+  bordor: 2px solid #eeeeee;
+  border-radius: 3px;
+  background: #eeeeee;
+  width: 35%;
+  margin-left: 5%;
+  color: rgb(124, 124, 124);
 }
 aside{
   position: absolute;

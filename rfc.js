@@ -100,8 +100,11 @@ function storageService() {
                 bookStore.index('name').openCursor().onsuccess = function (e) {
                     var cursor = e.target.result;
                     if (cursor) {
-                        if (cursor.key.match(name)) {
+                        if (name != null && cursor.key.match(name)) {
                             books.push(cursor.value);
+                        }
+                        else if(name == null){
+                        	books.push(cursor.value);
                         }
                         cursor.continue ();
                     }
@@ -141,6 +144,27 @@ function storageService() {
 function sideController(storageService) {
     var service = storageService();
     var savebutton = document.getElementById('save');
+    var updatebutton = document.getElementById('update');
+    var deletebutton = document.getElementById('delete');
+    listBooks();
+    function listBooks(){
+    	 service.findByName(null).then(function(books){
+    	 	var ul = document.createElement('ul');
+    	 		books.forEach(function(book){
+    	 			var li = document.createElement('li');
+    	 			if(book.name){
+    	 				li.innerHTML = book.name;
+    	 			}
+    	 			else{
+    	 				li.innerHTML = book.ref;
+    	 			}
+    	 			li.book = book;
+    	 			ul.appendChild(li);
+    	 		});
+    	 	var booklist = document.getElementById('booklist');
+    	 	booklist.appendChild(ul);
+    	 });
+    }
     savebutton.addEventListener('click', function () {
         service.addBook({
             name: document.getElementById('name').value,
@@ -149,6 +173,17 @@ function sideController(storageService) {
             content: document.getElementById('content').value,
             related: document.getElementById('name').value
         })
+    });
+    updatebutton.addEventListener('click', function () {
+        service.updateBook({
+            name: document.getElementById('name').value,
+            description: document.getElementById('description').value,
+            content: document.getElementById('content').value,
+            related: document.getElementById('name').value
+        })
+    });
+    deletebutton.addEventListener('click', function () {
+        service.removeBook(3);
     });
 }
 window.onload = function () {
