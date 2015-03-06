@@ -90,29 +90,24 @@ function storageService() {
         });
     }
     // Need to refine regex
-
     function findByName(name) {
         return dbPromise.then(function (db) {
-            var booksPromise = new Promise(function (resolve, reject) {
-                var books = [
-                ];
+            var booksPromise = new Promise(function (resolve) {
+                var books = [];
                 var bookStore = db.transaction('books', 'readwrite').objectStore('books');
-                bookStore.index('name').openKeyCursor().onsuccess = function (e) {
+                bookStore.index('name').openCursor().onsuccess = function (e) {
                     var cursor = e.target.result;
                     if (cursor) {
                         if (cursor.key.match(name)) {
                             books.push(cursor.value);
                         }
-                        cursor.continue;
+                        cursor.continue();
+                    }
+                    else{
+                    	resolve(books);
                     }
                 };
             });
-            if (books.length == 0) {
-                reject(books);
-            }
-            else {
-                resolve(books);
-            }
             return booksPromise;
         }, function (e) {
             var error = {
@@ -143,7 +138,18 @@ function storageService() {
 }
 window.onload = function () {
     var service = storageService();
-    // var myBook = service.findByName('Danielson');
+var books = [
+    {
+        name: 'Daniel',
+        ref: 23231,
+        description: 'Show me some essa manyana',
+        content: new Blob,
+        related: [
+            54566
+        ]
+    }
+];
+		// service.addBook(books[0]);
     var promise = service.findByName('Danielson');
     promise.then(function (books) {
         console.log(books)
