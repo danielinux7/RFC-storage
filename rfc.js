@@ -51,7 +51,15 @@ function storageService() {
     function updateBook(book) {
         dbPromise.then(function (db) {
             var bookStore = db.transaction('books', 'readwrite').objectStore('books');
-            bookStore.put(book);
+            bookStore.get(parseInt(book.id)).onsuccess = function (e) {
+                var dbbook = e.target.result;
+                dbbook.name = book.name;
+                dbbook.ref = book.ref;
+                dbbook.description = book.description;
+                dbbook.content = book.content;
+                dbbook.related = book.related;
+                bookStore.put(dbbook);
+            };
         }, function (e) {
             var error = {
                 name: e.target.error.name,
@@ -103,8 +111,8 @@ function storageService() {
                         if (name != null && cursor.key.match(name)) {
                             books.push(cursor.value);
                         }
-                        else if(name == null){
-                        	books.push(cursor.value);
+                        else if (name == null) {
+                            books.push(cursor.value);
                         }
                         cursor.continue ();
                     }
@@ -147,29 +155,36 @@ function sideController(storageService) {
     var updatebutton = document.getElementById('update');
     var deletebutton = document.getElementById('delete');
     listBooks();
-    function listBooks(){
-    	 service.findByName(null).then(function(books){
-    	 	var ul = document.createElement('ul');
-    	 		books.forEach(function(book){
-    	 			var li = document.createElement('li');
-    	 			li.classList.add('stylelist');
-    	 			if(book.name){
-    	 				li.innerHTML = book.name;
-    	 			}
-    	 			else{
-    	 				li.innerHTML = book.ref;
-    	 			}
-    	 			li.addEventListener('click',function(){
-    				var mainframe = document.getElementById('mainframe');
-    				var url = window.URL.createObjectURL(book.content);
-    				mainframe.src = url;
-    				});
-    	 			li.id = book.id;
-    	 			ul.appendChild(li);
-    	 		});
-    	 	var booklist = document.getElementById('booklist');
-    	 	booklist.appendChild(ul);
-    	 });
+    function listBooks() {
+        service.findByName(null).then(function (books) {
+            var ul = document.createElement('ul');
+            books.forEach(function (book) {
+                var li = document.createElement('li');
+                li.classList.add('stylelist');
+                if (book.name) {
+                    li.innerHTML = book.name;
+                }
+                else {
+                    li.innerHTML = book.ref;
+                }
+                li.addEventListener('click', function () {
+                    var mainframe = document.getElementById('mainframe');
+                    var url = window.URL.createObjectURL(book.content);
+                    var relatedItems = '';
+                    // book.related.forEach(function(item){ relatedItems += item + " "});
+                    mainframe.src = url;
+                    document.getElementById('dbID').value = book.id;
+                    document.getElementById('name').value = book.name;
+                    document.getElementById('description').value = book.description;
+                    document.getElementById('ref').value = book.ref;
+                    document.getElementById('content').files[0] = book.content;
+                    document.getElementById('related').value = relatedItems;
+                });
+                ul.appendChild(li);
+            });
+            var booklist = document.getElementById('booklist');
+            booklist.appendChild(ul);
+        });
     }
     savebutton.addEventListener('click', function () {
         service.addBook({
@@ -177,15 +192,17 @@ function sideController(storageService) {
             description: document.getElementById('description').value,
             ref: document.getElementById('ref').value,
             content: document.getElementById('content').files[0],
-            related: document.getElementById('name').value
+            related: document.getElementById('related').value
         })
     });
     updatebutton.addEventListener('click', function () {
         service.updateBook({
+            id: document.getElementById('dbID').value,
             name: document.getElementById('name').value,
             description: document.getElementById('description').value,
-            content: document.getElementById('content').value,
-            related: document.getElementById('name').value
+            ref: document.getElementById('ref').value,
+            content: document.getElementById('content').files[0],
+            related: document.getElementById('related').value
         })
     });
     deletebutton.addEventListener('click', function () {
