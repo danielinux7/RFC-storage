@@ -4,14 +4,29 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" href="rfc.css">
 </head>
-<body>
-<section class="container">
-    <header class="shared"></header>
-    <nav class="shared"></nav>
-    <aside class="shared"></aside>
-    <article class="shared"></article>
+<body "container">
+    <aside id="side" class="shared">
+      <input type="hidden" id="dbID" />
+      <div class="input">
+      <input id="name" placeholder="Name" type="text" />
+      </div>
+      <div class="input">
+      <input id="ref" placeholder="Reference Number" type="text" />
+      </div>
+      <div  class="input">
+      <input id="description" placeholder="Description" type="text" />
+      </div>
+      <div class="input">
+      <input id="related" placeholder="Related Resference Numbers" type="text" />
+      </div>
+      <div class="input">
+      <input id="content" type="file" />
+      </div>
+    </aside>
+    <div id="dock">
+    </div>
+    <iframe id="mainframe" class=""></iframe>
     <footer class="shared"></footer>
-  </section>
 </body>
 <script type="text/javascript" src="rfc.js"></script>
 </html>
