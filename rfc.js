@@ -169,7 +169,13 @@ function sideController(storageService) {
                 }
                 li.addEventListener('click', function () {
                     var mainframe = document.getElementById('mainframe');
-                    var url = window.URL.createObjectURL(book.content);
+                    var url;
+                    if(book.content instanceof Blob){
+                    	url = window.URL.createObjectURL(book.content);
+                    }
+                    else{
+                    	url = '';
+                    }
                     var relatedItems = '';
                     // book.related.forEach(function(item){ relatedItems += item + " "});
                     mainframe.src = url;
@@ -206,7 +212,8 @@ function sideController(storageService) {
         })
     });
     deletebutton.addEventListener('click', function () {
-        service.removeBook(3);
+        var id = parseInt(document.getElementById('dbID').value);
+        service.removeBook(id);
     });
 }
 window.onload = function () {
