@@ -3,18 +3,11 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.container{
-  display:flex;
-}
 html, body{
   height: 100%;
 }
 body{
   margin: 0;
-}
-.shared{
-    border-radius: 5px;
-    color: #eeeeee;
 }
 #dock{
   position:absolute;
@@ -39,8 +32,8 @@ body{
 .input{
   margin-bottom: 0.5em;
 }
-input, button{
-  background: #eeeeee;
+input{
+  background: rgba(255, 255, 255, 0.36);
   border-radius: 3px;
   color: rgb(124, 124, 124);
 }
@@ -64,11 +57,12 @@ input, button{
 }
 aside{
   position: absolute;
-  background: rgb(124, 124, 124);
-  border: 5px solid rgb(179, 174, 174);
+  background: rgba(255, 255, 255, 0.36);
+  border: 1px solid #B7B6BA;
   top:20%;
-  height: 60%;
-  width: 25%;
+  left:10%;
+  filter: brightness(1.1) contrast(80%);
+  -webkit-filter: brightness(1.1) contrast(80%);
 }
 iframe{
   height: 98%;

@@ -220,7 +220,7 @@ function sideController(storageService) {
             content: document.getElementById('content').files[0],
             related: document.getElementById('related').value
         })
-    });
+    }).innerHTML = 'Add';
      widget.addDockItem('rgba(36, 103, 250, 0.25)', 'rgba(36, 47, 255, 0.45)',function(e){
             service.updateBook({
             id: document.getElementById('dbID').value,
@@ -230,11 +230,11 @@ function sideController(storageService) {
             content: document.getElementById('content').files[0],
             related: document.getElementById('related').value
         })
-    });
+    }).innerHTML = 'Update';
      widget.addDockItem('rgba(255, 73, 73, 0.6)', '#FF4444',function(e){
         var id = parseInt(document.getElementById('dbID').value);
         service.removeBook(id);
-    });
+    }).innerHTML = 'Remove';
 }
 window.onload = function () {
     sideController(storageService);
