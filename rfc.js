@@ -158,11 +158,12 @@ function sideController(storageService) {
     function listBooks() {
         service.findByName(null).then(function (books) {
             var ul = document.createElement('ul');
+            ul.classList.add('styleul');
             books.forEach(function (book) {
                 var li = document.createElement('li');
-                li.classList.add('stylelist');
+                li.classList.add('styleli');
                 if (book.name) {
-                    li.innerHTML = book.name;
+                    li.innerHTML = book.name.toUpperCase();
                 }
                 else {
                     li.innerHTML = book.ref;
