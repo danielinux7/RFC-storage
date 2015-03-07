@@ -149,8 +149,27 @@ function storageService() {
     }
     return service;
 }
+function widgetService(){
+	var service = {
+		addDockItem:addDockItem
+	}
+	function addDockItem(bgcolor, bcolor, callback){
+	var dock = document.getElementById('dock');
+	var div  = document.createElement('div');
+	div.classList.add('dockItem');
+	div.style.background = bgcolor;
+	div.style.borderColor = bcolor;
+	div.addEventListener('click',callback);
+	div.addEventListener('mouseover',function(e){this.style.background = '#FF44be'});
+	div.addEventListener('mouseleave',function(e){this.style.background = bgcolor});
+	dock.appendChild(div);
+	return div;
+}
+return service
+}
 function sideController(storageService) {
     var service = storageService();
+    var widget = widgetService();
     var savebutton = document.getElementById('save');
     var updatebutton = document.getElementById('update');
     var deletebutton = document.getElementById('delete');
@@ -189,12 +208,12 @@ function sideController(storageService) {
                 });
                 ul.appendChild(li);
             });
-            var booklist = document.getElementById('booklist');
-            booklist.appendChild(ul);
+            var widgetList = widget.addDockItem('rgba(73, 255, 69, 0.41)', 'rgba(6, 255, 0, 0.98)',function(e){return;});
+            widgetList.appendChild(ul);
         });
     }
-    savebutton.addEventListener('click', function () {
-        service.addBook({
+    widget.addDockItem('rgba(73, 255, 69, 0.41)', 'rgba(6, 255, 0, 0.98)',function(e){
+    	      service.addBook({
             name: document.getElementById('name').value,
             description: document.getElementById('description').value,
             ref: document.getElementById('ref').value,
@@ -202,8 +221,8 @@ function sideController(storageService) {
             related: document.getElementById('related').value
         })
     });
-    updatebutton.addEventListener('click', function () {
-        service.updateBook({
+     widget.addDockItem('rgba(36, 103, 250, 0.25)', 'rgba(36, 47, 255, 0.45)',function(e){
+            service.updateBook({
             id: document.getElementById('dbID').value,
             name: document.getElementById('name').value,
             description: document.getElementById('description').value,
@@ -212,7 +231,7 @@ function sideController(storageService) {
             related: document.getElementById('related').value
         })
     });
-    deletebutton.addEventListener('click', function () {
+     widget.addDockItem('rgba(255, 73, 73, 0.6)', '#FF4444',function(e){
         var id = parseInt(document.getElementById('dbID').value);
         service.removeBook(id);
     });

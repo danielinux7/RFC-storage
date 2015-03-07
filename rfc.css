@@ -9,9 +9,32 @@
 html, body{
   height: 100%;
 }
+body{
+  margin: 0;
+}
 .shared{
     border-radius: 5px;
     color: #eeeeee;
+}
+#dock{
+  position:absolute;
+  height: 97%;
+  width: 5%;
+  border: 1px solid #B7B6BA;
+  border-radius: 5px;
+  margin: 0.5%;
+  background: rgba(255, 255, 255, 0.36);
+  filter: brightness(1.1) contrast(80%);
+  -webkit-filter: brightness(1.1) contrast(80%);
+}
+.dockItem{
+  border-radius: 5px;
+  border: 1px solid;
+  margin: 4%;
+  width: 92%;
+  height: 7%;
+  filter: brightness(1.6) contrast(175%);
+  -webkit-filter: brightness(1.6) contrast(175%);
 }
 .input{
   margin-bottom: 0.5em;
@@ -38,14 +61,6 @@ input, button{
 .styleli:active{
   background: rgb(124, 124, 124);
   color: #eeeeee;
-}
-#booklist{
-  bordor: 2px solid #eeeeee;
-  border-radius: 3px;
-  background: #eeeeee;
-  width: 35%;
-  margin-left: 5%;
-  color: rgb(124, 124, 124);
 }
 aside{
   position: absolute;
