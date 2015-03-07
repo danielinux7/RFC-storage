@@ -152,13 +152,19 @@ function sideController(storageService) {
     	 	var ul = document.createElement('ul');
     	 		books.forEach(function(book){
     	 			var li = document.createElement('li');
+    	 			li.classList.add('stylelist');
     	 			if(book.name){
     	 				li.innerHTML = book.name;
     	 			}
     	 			else{
     	 				li.innerHTML = book.ref;
     	 			}
-    	 			li.book = book;
+    	 			li.addEventListener('click',function(){
+    				var mainframe = document.getElementById('mainframe');
+    				var url = window.URL.createObjectURL(book.content);
+    				mainframe.src = url;
+    				});
+    	 			li.id = book.id;
     	 			ul.appendChild(li);
     	 		});
     	 	var booklist = document.getElementById('booklist');
@@ -170,7 +176,7 @@ function sideController(storageService) {
             name: document.getElementById('name').value,
             description: document.getElementById('description').value,
             ref: document.getElementById('ref').value,
-            content: document.getElementById('content').value,
+            content: document.getElementById('content').files[0],
             related: document.getElementById('name').value
         })
     });
