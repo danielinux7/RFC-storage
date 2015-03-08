@@ -170,9 +170,19 @@ return service
 function sideController(storageService) {
     var service = storageService();
     var widget = widgetService();
-    var savebutton = document.getElementById('save');
-    var updatebutton = document.getElementById('update');
-    var deletebutton = document.getElementById('delete');
+    var divfile = document.getElementById('divfile');
+    var content = document.getElementById('content');
+    divfile.addEventListener('click',function(e){
+      content.click();
+    });
+    content.addEventListener('change',function(e){
+    	if(e.target.files[0]){
+    		divfile.innerHTML = e.target.files[0].name;
+    	}
+    	else{
+    		divfile.innerHTML = 'Selected file';
+    	}
+    });
     listBooks();
     function listBooks() {
         service.findByName(null).then(function (books) {

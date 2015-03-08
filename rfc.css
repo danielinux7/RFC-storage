@@ -10,6 +10,8 @@ body{
   margin: 0;
 }
 #dock{
+  display: flex;
+  flex-flow: column nowrap;
   position:absolute;
   height: 97%;
   width: 5%;
@@ -33,9 +35,28 @@ body{
   margin-bottom: 0.5em;
 }
 input{
+  display: block;
   background: rgba(255, 255, 255, 0.36);
-  border-radius: 3px;
+  height: 20%;
   color: rgb(124, 124, 124);
+  padding-left: 0.5em;
+  border: none;
+  border-bottom: 1px solid rgb(124, 124, 124);
+}
+input:hover, #divfile:hover{
+  background: rgba(255, 255, 255, 0.66);
+}
+input:focus{
+  outline-color: rgb(124, 124, 124);
+}
+#divfile{
+  display: block;
+  background: rgba(255, 255, 255, 0.36);
+  height: 20%;
+  color: rgb(124, 124, 124);
+  padding-left: 0.5em;
+  border: none;
+  padding: 0.5em;
 }
 .styleul{
   padding-left: 10%;
@@ -55,12 +76,19 @@ input{
   background: rgb(124, 124, 124);
   color: #eeeeee;
 }
+#content{
+  display: none;
+}
 aside{
+  display: flex;
+  flex-flow: column nowrap;
   position: absolute;
   background: rgba(255, 255, 255, 0.36);
+  border-radius: 10px;
   border: 1px solid #B7B6BA;
   top:20%;
   left:10%;
+  height: 20%;
   filter: brightness(1.1) contrast(80%);
   -webkit-filter: brightness(1.1) contrast(80%);
 }
