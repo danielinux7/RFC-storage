@@ -9,6 +9,8 @@
       var line = document.getElementById('addLine');
       var canServ = canvasService();
       var canvas = document.getElementById('canvasDraw');
+      canvas.width = widget.clientWidth * 0.98;
+      canvas.height = widget.clientHeight * 0.90;
       line.addEventListener('click',function(e){
         canServ.addLine();
       });
@@ -33,24 +35,23 @@
         var raf;
         var listener = function(e){
               if(!runningAnimation){
-                raf = window.requestAnimationFrame(function(){
+                // raf = window.requestAnimationFrame(function(){
                   // ctx.beginPath();
                   // ctx.moveTo(e.x,e.y);
                   // ctx.lineTo(100,100);
                   // ctx.stroke();
-                });
+                // });
                 x = e.x;
                 y = e.y;
                 runningAnimation = true;
               }
               else {
-                window.cancelAnimationFrame(raf);
+                // window.cancelAnimationFrame(raf);
                 ctx.beginPath();
-                ctx.moveTo(Math.floor(x/2-20),Math.floor(y/2+20));
-                ctx.lineTo(Math.floor(e.x/2-20),Math.floor(e.y/2+20));
+                ctx.moveTo(x,y);
+                ctx.lineTo(e.x,e.y);
                 ctx.stroke();
                 runningAnimation = false;
-                console.log(x +','+y);
               }
         }
         if(!running){
