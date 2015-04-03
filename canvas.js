@@ -9,63 +9,80 @@
       var line = document.getElementById('addLine');
       var canServ = canvasService();
       var canvas = document.getElementById('canvasDraw');
+      var draft = document.getElementById('canvasDraft');
       canvas.width = widget.clientWidth * 0.98;
       canvas.height = widget.clientHeight * 0.90;
+      draft.width = widget.clientWidth * 0.98;
+      draft.height = widget.clientHeight * 0.90;
       line.addEventListener('click',function(e){
         canServ.addLine();
       });
-      canvas.addEventListener('click',function(e){
+      draft.addEventListener('click',function(e){
         var evt = new Event('add');
         evt.x = e.layerX;
         evt.y = e.layerY;
         line.dispatchEvent(evt);
       });
-     }
-     function canvasService(){
+    }
+    function canvasService(){
       var service = {
         addLine: addLine
       }
       var canvas = document.getElementById('canvasDraw');
+      var draft = document.getElementById('canvasDraft');
       var ctx = canvas.getContext('2d');
+      var ctxDraft = draft.getContext('2d');
       var running = false;
       function addLine(){
         var line = document.getElementById('addLine');
-        var x,y;
+        var x,y,xMoving,yMoving;
         var runningAnimation = false;
         var raf;
         var listener = function(e){
-              if(!runningAnimation){
-                // raf = window.requestAnimationFrame(function(){
-                  // ctx.beginPath();
-                  // ctx.moveTo(e.x,e.y);
-                  // ctx.lineTo(100,100);
-                  // ctx.stroke();
-                // });
-                x = e.x;
-                y = e.y;
-                runningAnimation = true;
-              }
-              else {
-                // window.cancelAnimationFrame(raf);
-                ctx.beginPath();
-                ctx.moveTo(x,y);
-                ctx.lineTo(e.x,e.y);
-                ctx.stroke();
-                runningAnimation = false;
-              }
+          if(!runningAnimation){
+            x = e.x;
+            y = e.y;
+            var frameCallback = function(){
+                ctxDraft.save();
+                ctxDraft.globalCompositeOperation = 'source-out';
+                ctxDraft.beginPath();
+                ctxDraft.moveTo(x,y);
+                ctxDraft.lineTo(xMoving,yMoving);
+                ctxDraft.stroke();
+                ctxDraft.restore();
+                raf = window.requestAnimationFrame(frameCallback);
+            }
+            var movingCallback = function(e){
+                xMoving = e.layerX;
+                yMoving = e.layerY;
+            }
+            draft.addEventListener('mousemove',movingCallback);
+            raf = window.requestAnimationFrame(frameCallback);
+            runningAnimation = true;
+          }
+          else {
+            window.cancelAnimationFrame(raf);
+            draft.removeEventListener('mousemove',movingCallback);
+            ctx.beginPath();
+            ctx.moveTo(x,y);
+            ctx.lineTo(xMoving,yMoving);
+            ctx.stroke();
+            runningAnimation = false;
+            console.log(x+','+y+','+xMoving+','+yMoving);
+          }
         }
         if(!running){
           line.addEventListener('add',listener);
           line.style.background = 'rgba(0,100,0,0.9)';
-          canvas.classList.add('pen');
+          draft.classList.add('pen');
           running = true;
         }
         else{
           line.removeEventListener('add',listener);
           line.style.background = 'rgba(0,0,0,0.1)';
-          canvas.classList.remove('pen');
+          draft.classList.remove('pen');
           running = false;
         }
       }
       return service;
-     }
+    }
