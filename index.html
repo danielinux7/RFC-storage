@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" href="rfc.css">
+  <link rel="stylesheet" type="text/css" href="canvas.css">
+  <link rel="stylesheet" type="text/css" href="font-awesome.css">
+  <link rel="import" id="template" href="canvas.html">
 </head>
 <body "container">
     <aside id="side" class="shared">
@@ -17,7 +20,15 @@
     <div id="dock">
     </div>
     <iframe id="mainframe" class=""></iframe>
+    <div id="canvasWidget">
+      <div id="canvasBar">
+        <div class="canvasBarItem" id="addLine">line</div>
+      </div>
+      <canvas id="canvasDraw"></canvas>
+      <canvas id="canvasDraft"></canvas>
+    </div>
     <footer class="shared"></footer>
 </body>
 <script type="text/javascript" src="rfc.js"></script>
+<script type="text/javascript" src="canvas.js"></script>
 </html>

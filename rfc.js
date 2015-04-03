@@ -156,12 +156,12 @@ function widgetService(){
 	function addDockItem(bgcolor, bcolor, callback){
 	var dock = document.getElementById('dock');
 	var div  = document.createElement('div');
-	div.classList.add('dockItem');
+	div.classList.add('dockItem','fa');
 	div.style.background = bgcolor;
 	div.style.borderColor = bcolor;
 	div.addEventListener('click',callback);
-	div.addEventListener('mouseover',function(e){this.style.background = '#FF44be'});
-	div.addEventListener('mouseleave',function(e){this.style.background = bgcolor});
+	// div.addEventListener('mouseover',function(e){this.style.background = '#FF44be'});
+	// div.addEventListener('mouseleave',function(e){this.style.background = bgcolor});
 	dock.appendChild(div);
 	return div;
 }
