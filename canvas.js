@@ -8,6 +8,7 @@
       var widget = document.getElementById('canvasWidget');
       var line = document.getElementById('addLine');
       var circle = document.getElementById('addCircle');
+      var freeLine = document.getElementById('addFreeLine');
       var canServ = canvasService();
       var canvas = document.getElementById('canvasDraw');
       var draft = document.getElementById('canvasDraft');
@@ -21,18 +22,23 @@
       circle.addEventListener('click',function(e){
         canServ.addCircle();
       });
+      freeLine.addEventListener('click',function(e){
+        canServ.addFreeLine();
+      });
       draft.addEventListener('click',function(e){
         var evt = new Event('add');
         evt.x = e.layerX;
         evt.y = e.layerY;
         line.dispatchEvent(evt);
         circle.dispatchEvent(evt);
+        freeLine.dispatchEvent(evt);
       });
     }
     function canvasService(){
       var service = {
         addLine: addLine,
-        addCircle: addCircle
+        addCircle: addCircle,
+        addFreeLine: addFreeLine
       }
       var canvas = document.getElementById('canvasDraw');
       var draft = document.getElementById('canvasDraft');
@@ -138,6 +144,47 @@
         else{
           circle.removeEventListener('add',listener);
           circle.style.background = 'rgba(0,0,0,0.1)';
+          draft.classList.remove('pen');
+          running = false;
+        }
+      }
+      function addFreeLine(){
+        var freeLine = document.getElementById('addFreeLine');
+        var xMoving,yMoving;
+        var runningAnimation = false;
+        var raf;
+        var listener = function(e){
+          if(!runningAnimation){
+            var frameCallback = function(){
+                ctx.beginPath();
+                ctx.moveTo(xMoving-1,yMoving-1);
+                ctx.lineTo(xMoving,yMoving);
+                ctx.stroke();
+                raf = window.requestAnimationFrame(frameCallback);
+            }
+            var movingCallback = function(e){
+                xMoving = e.layerX;
+                yMoving = e.layerY;
+            }
+            draft.addEventListener('mousemove',movingCallback);
+            raf = window.requestAnimationFrame(frameCallback);
+            runningAnimation = true;
+          }
+          else {
+            window.cancelAnimationFrame(raf);
+            draft.removeEventListener('mousemove',movingCallback);
+            runningAnimation = false;
+          }
+        }
+        if(!running){
+          freeLine.addEventListener('add',listener);
+          freeLine.style.background = 'rgba(255, 73, 73, 0.6)';
+          draft.classList.add('pen');
+          running = true;
+        }
+        else{
+          freeLine.removeEventListener('add',listener);
+          freeLine.style.background = 'rgba(0,0,0,0.1)';
           draft.classList.remove('pen');
           running = false;
         }
