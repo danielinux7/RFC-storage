@@ -9,6 +9,7 @@
       var line = document.getElementById('addLine');
       var circle = document.getElementById('addCircle');
       var freeLine = document.getElementById('addFreeLine');
+      var curve = document.getElementById('addCurve');
       var canServ = canvasService();
       var canvas = document.getElementById('canvasDraw');
       var draft = document.getElementById('canvasDraft');
@@ -25,6 +26,9 @@
       freeLine.addEventListener('click',function(e){
         canServ.addFreeLine();
       });
+      curve.addEventListener('click',function(e){
+        canServ.addCurve();
+      });
       draft.addEventListener('click',function(e){
         var evt = new Event('add');
         evt.x = e.layerX;
@@ -32,13 +36,15 @@
         line.dispatchEvent(evt);
         circle.dispatchEvent(evt);
         freeLine.dispatchEvent(evt);
+        curve.dispatchEvent(evt);
       });
     }
     function canvasService(){
       var service = {
         addLine: addLine,
         addCircle: addCircle,
-        addFreeLine: addFreeLine
+        addFreeLine: addFreeLine,
+        addCurve: addCurve
       }
       var canvas = document.getElementById('canvasDraw');
       var draft = document.getElementById('canvasDraft');
@@ -185,6 +191,67 @@
         else{
           freeLine.removeEventListener('add',listener);
           freeLine.style.background = 'rgba(0,0,0,0.1)';
+          draft.classList.remove('pen');
+          running = false;
+        }
+      }
+      function addCurve(){
+        var curve = document.getElementById('addCurve');
+        var x1,y1,x2,y2,xMoving,yMoving;
+        var runningAnimation = false;
+        var raf;
+        var listener = function(e){
+          if(!runningAnimation){
+            if(x1 == undefined || y1 == undefined){
+              x1 = e.x;
+              y1 = e.y;
+            }
+            else{
+              x2 = e.x;
+              y2 = e.y;
+              runningAnimation = true;
+            }
+            var frameCallback = function(){
+                ctxDraft.save();
+                ctxDraft.globalCompositeOperation = 'source-out';
+                ctxDraft.beginPath();
+                ctxDraft.moveTo(x1,y1);
+                ctxDraft.quadraticCurveTo(xMoving, yMoving, x2, y2);
+                ctxDraft.stroke();
+                ctxDraft.restore();
+                raf = window.requestAnimationFrame(frameCallback);
+            }
+            var movingCallback = function(e){
+                xMoving = e.layerX;
+                yMoving = e.layerY;
+            }
+            draft.addEventListener('mousemove',movingCallback);
+            raf = window.requestAnimationFrame(frameCallback);
+            console.log(x1+','+y1+','+x2+','+y2);
+          }
+          else {
+            window.cancelAnimationFrame(raf);
+            draft.removeEventListener('mousemove',movingCallback);
+            ctx.beginPath();
+            ctx.moveTo(x1,y1);
+            ctx.quadraticCurveTo(xMoving, yMoving, x2, y2);
+            ctx.stroke();
+            x1 = undefined;
+            y1 = undefined;
+            x2 = undefined;
+            y2 = undefined;
+            runningAnimation = false;
+          }
+        }
+        if(!running){
+          curve.addEventListener('add',listener);
+          curve.style.background = 'rgba(50, 100, 185, 0.6)';
+          draft.classList.add('pen');
+          running = true;
+        }
+        else{
+          curve.removeEventListener('add',listener);
+          curve.style.background = 'rgba(0,0,0,0.1)';
           draft.classList.remove('pen');
           running = false;
         }
