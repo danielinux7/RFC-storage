@@ -8,6 +8,12 @@
   top: 10%;
   left: 20%;
 }
+.disabled{
+  background: rgba(50, 190, 185, 0.6);
+}
+.enabled{
+  background: #FF44be;
+}
 #canvasBar{
   display: flex;
   flex-flow: row nowrap;

@@ -29,6 +29,9 @@ body{
   filter: brightness(1.6) contrast(175%);
   -webkit-filter: brightness(1.6) contrast(175%);
 }
+.hidden{
+  display:none;
+}
 .input{
   margin-bottom: 0.5em;
 }
