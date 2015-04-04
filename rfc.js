@@ -149,39 +149,54 @@ function storageService() {
     }
     return service;
 }
-function widgetService(){
-	var service = {
-		addDockItem:addDockItem
-	}
-	function addDockItem(bgcolor, bcolor, callback){
-	var dock = document.getElementById('dock');
-	var div  = document.createElement('div');
-	div.classList.add('dockItem','fa');
-	div.style.background = bgcolor;
-	div.style.borderColor = bcolor;
-	div.addEventListener('click',callback);
-	// div.addEventListener('mouseover',function(e){this.style.background = '#FF44be'});
-	// div.addEventListener('mouseleave',function(e){this.style.background = bgcolor});
-	dock.appendChild(div);
-	return div;
-}
-return service
+function widgetService() {
+    var service = {
+        addDockItem: addDockItem,
+        addDockItem2: addDockItem2
+    }
+    function addDockItem(bgcolor, bcolor, callback) {
+        var dock = document.getElementById('dock');
+        var div = document.createElement('div');
+        div.classList.add('dockItem', 'fa');
+        div.style.background = bgcolor;
+        div.style.borderColor = bcolor;
+        div.addEventListener('click', callback);
+        // div.addEventListener('mouseover',function(e){this.style.background = '#FF44be'});
+        // div.addEventListener('mouseleave',function(e){this.style.background = bgcolor});
+        dock.appendChild(div);
+        return div;
+    }
+    function addDockItem2(options) {
+        var dock = document.getElementById('dock');
+        var div = document.createElement('div');
+        if (options.active == false) {
+            div.classList.add('disabled');
+        }
+        div.classList.add('dockItem', 'fa');
+        div.style.borderColor = options.icon.border;
+        div.addEventListener('click', options.click);
+        // div.addEventListener('mouseover',function(e){this.style.background = '#FF44be'});
+        // div.addEventListener('mouseleave',function(e){this.style.background = bgcolor});
+        dock.appendChild(div);
+        return div;
+    }
+    return service
 }
 function sideController(storageService) {
     var service = storageService();
     var widget = widgetService();
     var divfile = document.getElementById('divfile');
     var content = document.getElementById('content');
-    divfile.addEventListener('click',function(e){
-      content.click();
+    divfile.addEventListener('click', function (e) {
+        content.click();
     });
-    content.addEventListener('change',function(e){
-    	if(e.target.files[0]){
-    		divfile.innerHTML = e.target.files[0].name;
-    	}
-    	else{
-    		divfile.innerHTML = 'Selected file';
-    	}
+    content.addEventListener('change', function (e) {
+        if (e.target.files[0]) {
+            divfile.innerHTML = e.target.files[0].name;
+        }
+        else {
+            divfile.innerHTML = 'Selected file';
+        }
     });
     listBooks();
     function listBooks() {
@@ -200,11 +215,11 @@ function sideController(storageService) {
                 li.addEventListener('click', function () {
                     var mainframe = document.getElementById('mainframe');
                     var url;
-                    if(book.content instanceof Blob){
-                    	url = window.URL.createObjectURL(book.content);
+                    if (book.content instanceof Blob) {
+                        url = window.URL.createObjectURL(book.content);
                     }
-                    else{
-                    	url = '';
+                    else {
+                        url = '';
                     }
                     var relatedItems = '';
                     // book.related.forEach(function(item){ relatedItems += item + " "});
@@ -218,12 +233,14 @@ function sideController(storageService) {
                 });
                 ul.appendChild(li);
             });
-            var widgetList = widget.addDockItem('rgba(73, 255, 69, 0.41)', 'rgba(6, 255, 0, 0.98)',function(e){return;});
+            var widgetList = widget.addDockItem('rgba(73, 255, 69, 0.41)', 'rgba(6, 255, 0, 0.98)', function (e) {
+                return;
+            });
             widgetList.appendChild(ul);
         });
     }
-    widget.addDockItem('rgba(73, 255, 69, 0.41)', 'rgba(6, 255, 0, 0.98)',function(e){
-    	      service.addBook({
+    widget.addDockItem('rgba(73, 255, 69, 0.41)', 'rgba(6, 255, 0, 0.98)', function (e) {
+        service.addBook({
             name: document.getElementById('name').value,
             description: document.getElementById('description').value,
             ref: document.getElementById('ref').value,
@@ -231,8 +248,8 @@ function sideController(storageService) {
             related: document.getElementById('related').value
         })
     }).innerHTML = 'Add';
-     widget.addDockItem('rgba(36, 103, 250, 0.25)', 'rgba(36, 47, 255, 0.45)',function(e){
-            service.updateBook({
+    widget.addDockItem('rgba(36, 103, 250, 0.25)', 'rgba(36, 47, 255, 0.45)', function (e) {
+        service.updateBook({
             id: document.getElementById('dbID').value,
             name: document.getElementById('name').value,
             description: document.getElementById('description').value,
@@ -241,7 +258,7 @@ function sideController(storageService) {
             related: document.getElementById('related').value
         })
     }).innerHTML = 'Update';
-     widget.addDockItem('rgba(255, 73, 73, 0.6)', '#FF4444',function(e){
+    widget.addDockItem('rgba(255, 73, 73, 0.6)', '#FF4444', function (e) {
         var id = parseInt(document.getElementById('dbID').value);
         service.removeBook(id);
     }).innerHTML = 'Remove';
