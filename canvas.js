@@ -7,6 +7,7 @@
      function canvasController(){
       var widget = document.getElementById('canvasWidget');
       var line = document.getElementById('addLine');
+      var circle = document.getElementById('addCircle');
       var canServ = canvasService();
       var canvas = document.getElementById('canvasDraw');
       var draft = document.getElementById('canvasDraft');
@@ -17,16 +18,21 @@
       line.addEventListener('click',function(e){
         canServ.addLine();
       });
+      circle.addEventListener('click',function(e){
+        canServ.addCircle();
+      });
       draft.addEventListener('click',function(e){
         var evt = new Event('add');
         evt.x = e.layerX;
         evt.y = e.layerY;
         line.dispatchEvent(evt);
+        circle.dispatchEvent(evt);
       });
     }
     function canvasService(){
       var service = {
-        addLine: addLine
+        addLine: addLine,
+        addCircle: addCircle
       }
       var canvas = document.getElementById('canvasDraw');
       var draft = document.getElementById('canvasDraft');
@@ -73,13 +79,65 @@
         }
         if(!running){
           line.addEventListener('add',listener);
-          line.style.background = 'rgba(0,100,0,0.9)';
+          line.style.background = 'rgba(73, 255, 69, 0.407843)';
           draft.classList.add('pen');
           running = true;
         }
         else{
           line.removeEventListener('add',listener);
           line.style.background = 'rgba(0,0,0,0.1)';
+          draft.classList.remove('pen');
+          running = false;
+        }
+      }
+      function addCircle(){
+        var circle = document.getElementById('addCircle');
+        var x,y,xMoving,yMoving;
+        var runningAnimation = false;
+        var raf;
+        var listener = function(e){
+          if(!runningAnimation){
+            x = e.x;
+            y = e.y;
+            var frameCallback = function(){
+                // This is not the needed equation.
+                var radius = Math.sqrt(Math.abs((yMoving - y)*(yMoving - y) - (xMoving - x)*(xMoving - x)));
+                ctxDraft.save();
+                ctxDraft.globalCompositeOperation = 'source-out';
+                ctxDraft.beginPath();
+                ctxDraft.arc(x, y, radius, 0, Math.PI*2, true);
+                ctxDraft.stroke();
+                ctxDraft.restore();
+                raf = window.requestAnimationFrame(frameCallback);
+            }
+            var movingCallback = function(e){
+                xMoving = e.layerX;
+                yMoving = e.layerY;
+            }
+            draft.addEventListener('mousemove',movingCallback);
+            raf = window.requestAnimationFrame(frameCallback);
+            runningAnimation = true;
+          }
+          else {
+            window.cancelAnimationFrame(raf);
+            draft.removeEventListener('mousemove',movingCallback);
+            var radius = Math.sqrt(Math.abs((yMoving - y)*(yMoving - y) - (xMoving - x)*(xMoving - x)));
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI*2, true);
+            ctx.stroke();
+            runningAnimation = false;
+            console.log(x+','+y+','+xMoving+','+yMoving);
+          }
+        }
+        if(!running){
+          circle.addEventListener('add',listener);
+          circle.style.background = 'rgba(50, 190, 185, 0.6)';
+          draft.classList.add('pen');
+          running = true;
+        }
+        else{
+          circle.removeEventListener('add',listener);
+          circle.style.background = 'rgba(0,0,0,0.1)';
           draft.classList.remove('pen');
           running = false;
         }

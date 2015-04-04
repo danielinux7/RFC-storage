@@ -40,6 +40,7 @@
   border-radius: 4px;
   width: 5%;
   height: 98%;
+  margin-right: 0.5em;
 }
 #canvasDraft.pen{
   cursor: crosshair;
