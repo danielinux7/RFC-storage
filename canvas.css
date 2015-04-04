@@ -51,17 +51,19 @@
 #canvasDraft.pen{
   cursor: crosshair;
 }
-#addLine:before{
-  content: "\f040";
+.canvasBarItem:before{
   display: inline-block;
   margin-left: 0.5em;
   position: absolute;
   top: 0.5em;
 }
+#addLine:before{
+  content: "\f040";
+}
 #addCircle:before{
-  content: "\f01b";
-  display: inline-block;
-  margin-left: 0.5em;
-  position: absolute;
-  top: 0.5em;
+  content: "\f10c";
+}#addFreeLine:before{
+  content: "\f11c";
+}#addCurve:before{
+  content: "\f12c";
 }

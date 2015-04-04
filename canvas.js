@@ -51,12 +51,10 @@
       var ctx = canvas.getContext('2d');
       var ctxDraft = draft.getContext('2d');
       var running = false;
-      function addLine(){
-        var line = document.getElementById('addLine');
-        var x,y,xMoving,yMoving;
-        var runningAnimation = false;
-        var raf;
-        var listener = function(e){
+      var runningAnimation = false;
+      var x,y,x1,y1,x2,y2,xMoving,yMoving;
+      var raf;
+      var lineListener = function(e){
           if(!runningAnimation){
             x = e.x;
             y = e.y;
@@ -89,25 +87,22 @@
             console.log(x+','+y+','+xMoving+','+yMoving);
           }
         }
+      function addLine(){
+        var line = document.getElementById('addLine');
         if(!running){
-          line.addEventListener('add',listener);
-          line.style.background = 'rgba(73, 255, 69, 0.407843)';
+          line.addEventListener('add',lineListener);
+          line.style.background = 'linear-gradient(rgba(73, 255, 69, 0.407843),rgba(0,0,0,0.05),rgba(73, 255, 69, 0.407843))';
           draft.classList.add('pen');
           running = true;
         }
         else{
-          line.removeEventListener('add',listener);
-          line.style.background = 'rgba(0,0,0,0.1)';
+          line.removeEventListener('add',lineListener);
+          line.style.background = '';
           draft.classList.remove('pen');
           running = false;
         }
       }
-      function addCircle(){
-        var circle = document.getElementById('addCircle');
-        var x,y,xMoving,yMoving;
-        var runningAnimation = false;
-        var raf;
-        var listener = function(e){
+      var circleListener = function(e){
           if(!runningAnimation){
             x = e.x;
             y = e.y;
@@ -141,25 +136,22 @@
             console.log(x+','+y+','+xMoving+','+yMoving);
           }
         }
+      function addCircle(){
+        var circle = document.getElementById('addCircle');
         if(!running){
-          circle.addEventListener('add',listener);
+          circle.addEventListener('add',circleListener);
           circle.style.background = 'rgba(50, 190, 185, 0.6)';
           draft.classList.add('pen');
           running = true;
         }
         else{
-          circle.removeEventListener('add',listener);
-          circle.style.background = 'rgba(0,0,0,0.1)';
+          circle.removeEventListener('add',circleListener);
+          circle.style.background = '';
           draft.classList.remove('pen');
           running = false;
         }
       }
-      function addFreeLine(){
-        var freeLine = document.getElementById('addFreeLine');
-        var xMoving,yMoving;
-        var runningAnimation = false;
-        var raf;
-        var listener = function(e){
+      var freeLinelistener = function(e){
           if(!runningAnimation){
             var frameCallback = function(){
                 ctx.beginPath();
@@ -182,25 +174,22 @@
             runningAnimation = false;
           }
         }
+      function addFreeLine(){
+        var freeLine = document.getElementById('addFreeLine');
         if(!running){
-          freeLine.addEventListener('add',listener);
+          freeLine.addEventListener('add',freeLinelistener);
           freeLine.style.background = 'rgba(255, 73, 73, 0.6)';
           draft.classList.add('pen');
           running = true;
         }
         else{
-          freeLine.removeEventListener('add',listener);
-          freeLine.style.background = 'rgba(0,0,0,0.1)';
+          freeLine.removeEventListener('add',freeLinelistener);
+          freeLine.style.background = '';
           draft.classList.remove('pen');
           running = false;
         }
       }
-      function addCurve(){
-        var curve = document.getElementById('addCurve');
-        var x1,y1,x2,y2,xMoving,yMoving;
-        var runningAnimation = false;
-        var raf;
-        var listener = function(e){
+      var curveListener = function(e){
           if(!runningAnimation){
             if(x1 == undefined || y1 == undefined){
               x1 = e.x;
@@ -243,15 +232,17 @@
             runningAnimation = false;
           }
         }
+      function addCurve(){
+        var curve = document.getElementById('addCurve');
         if(!running){
-          curve.addEventListener('add',listener);
+          curve.addEventListener('add',curveListener);
           curve.style.background = 'rgba(50, 100, 185, 0.6)';
           draft.classList.add('pen');
           running = true;
         }
         else{
-          curve.removeEventListener('add',listener);
-          curve.style.background = 'rgba(0,0,0,0.1)';
+          curve.removeEventListener('add',curveListener);
+          curve.style.background = '';
           draft.classList.remove('pen');
           running = false;
         }
