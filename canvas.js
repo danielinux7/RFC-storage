@@ -108,7 +108,7 @@ function canvasService() {
         var line = document.getElementById('addLine');
         if (!running) {
             line.addEventListener('add', lineListener);
-            line.style.background = 'linear-gradient(rgba(73, 255, 69, 0.407843),rgba(0,0,0,0.05),rgba(73, 255, 69, 0.407843))';
+            line.style.background = 'rgba(73, 255, 69, 0.407843)';
             draft.classList.add('pen');
             running = true;
         }
