@@ -10,7 +10,7 @@ body{
   margin: 0;
 }
 #dock{
-  position:absolute;
+  position:fixed;
   height: 97%;
   width: 5%;
   border: 1px solid #B7B6BA;
@@ -93,9 +93,16 @@ aside{
   filter: brightness(1.1) contrast(80%);
   -webkit-filter: brightness(1.1) contrast(80%);
 }
-iframe{
-  height: 98%;
-  width: 100%;
+.widget{
+  position: absolute;
+  background: rgba(255, 255, 255, 0.36);
+  border: 1px solid #B7B6BA;
+  border-radius: 4px;
+  width: 94%;
+  height: 97%;
+  top: 0;
+  left: 5%;
+  margin: 0.5em;
 }
 footer{
 }

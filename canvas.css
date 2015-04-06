@@ -1,14 +1,3 @@
-#canvasWidget{
-  position: absolute;
-  background: rgba(255, 255, 255, 0.36);
-  border: 1px solid #B7B6BA;
-  border-radius: 4px;
-  width: 94%;
-  height: 97%;
-  top: 0;
-  left: 5%;
-  margin: 0.5em;
-}
 .disabled{
   background: rgba(50, 190, 185, 0.6);
 }
